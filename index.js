@@ -10,8 +10,7 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin: process.env.APPLICATION_URL, // frontend domain (update if using different port or domain)
-    credentials: true, // allow cookies
+    origin: process.env.APPLICATION_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
