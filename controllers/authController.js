@@ -16,9 +16,18 @@ exports.registerUser = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   try {
+    // Prevent duplicate email
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
+    }
+
+    // Prevent registering a second admin
+    if (role === "admin") {
+      const adminExists = await User.findOne({ role: "admin" });
+      if (adminExists) {
+        return res.status(403).json({ message: "Admin already registered" });
+      }
     }
 
     const user = await User.create({ name, email, password, role });
