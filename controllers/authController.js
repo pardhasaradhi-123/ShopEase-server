@@ -30,7 +30,9 @@ exports.registerUser = async (req, res) => {
       }
     }
 
-    const user = await User.create({ name, email, password, role });
+    // Create user (triggers pre-save hook to hash password and set accountCreated)
+    const user = new User({ name, email, password, role });
+    await user.save();
 
     res.status(201).json({
       user: {
